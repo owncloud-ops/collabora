@@ -100,9 +100,9 @@ pipeline:
     commands:
       - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin registry.owncloud.com
       - docker tag registry.owncloud.com/collabora/server:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} registry.owncloud.com/collabora/server:4
-      - docker push registry.owncloud.com/ocollabora/server:4
+      - docker push registry.owncloud.com/collabora/server:4
       - docker tag registry.owncloud.com/collabora/server:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} registry.owncloud.com/collabora/server:latest
-      - docker push registry.owncloud.com/ocollabora/server:latest
+      - docker push registry.owncloud.com/collabora/server:latest
     when:
       event: [ push ]
 
