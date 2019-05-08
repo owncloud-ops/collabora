@@ -76,6 +76,7 @@ pipeline:
     environment:
       - CLAIR_ADDR=clair.owncloud.com
       - CLAIR_OUTPUT=High
+      - CLAIR_TIMEOUT=10
     commands:
       - klar registry.owncloud.com/collabora/server:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}
     when:
