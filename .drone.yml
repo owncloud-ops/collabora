@@ -1,0 +1,121 @@
+workspace:
+  base: /drone
+  path: src/github.com/owncloud-docker/collabora
+
+branches:
+  - master
+
+clone:
+  git:
+    image: plugins/git:1
+    pull: true
+
+pipeline:
+  wait-for-docker:
+    image: owncloud/ubuntu:latest
+    pull: true
+    commands:
+      - wait-for-it -t 600 docker:2375
+
+  build-image:
+    image: toolhippie/docker:latest
+    pull: true
+    secrets: [ collabora_token ]
+    environment:
+      - DOCKER_HOST=tcp://docker:2375
+    commands:
+      - docker build --build-arg COLLABORA_TOKEN -t registry.owncloud.com/collabora/server:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} .
+
+  smoketest-server:
+    image: toolhippie/docker:latest
+    pull: true
+    detach: true
+    environment:
+      - DOCKER_HOST=tcp://docker:2375
+      - COLLABORA_STORAGE_WOPI_HOSTS_ALLOW=docker
+    commands:
+      - |
+        docker run \
+        --name collabora \
+        -p 9980:9980 \
+        -e COLLABORA_STORAGE_WOPI_HOSTS_ALLOW \
+        registry.owncloud.com/collabora/server:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}
+
+  wait-for-collabora:
+    image: owncloud/ubuntu:latest
+    pull: true
+    commands:
+      - wait-for-it -t 600 docker:9980
+
+  run-simple-smoke-test:
+    image: owncloud/ubuntu:latest
+    pull: true
+    commands:
+      - curl -sSf http://docker:9980/
+
+  prepublish-image:
+    image: toolhippie/docker:latest
+    pull: true
+    secrets: [ docker_username, docker_password ]
+    environment:
+      - DOCKER_HOST=tcp://docker:2375
+    commands:
+      - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin registry.owncloud.com
+      - docker push registry.owncloud.com/collabora/server:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}
+    when:
+      event: [ push, pull_request ]
+
+  clair-check:
+    image: toolhippie/klar:latest
+    pull: true
+    secrets:
+      - source: docker_username
+        target: docker_user
+      - source: docker_password
+        target: docker_password
+    environment:
+      - CLAIR_ADDR=clair.owncloud.com
+      - CLAIR_OUTPUT=High
+    commands:
+      - klar registry.owncloud.com/collabora/server:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}
+    when:
+      event: [ push, pull_request ]
+
+  cleanup-prepublish:
+    image: toolhippie/reg:latest
+    pull: true
+    secrets: [ docker_username, docker_password ]
+    commands:
+      - reg rm --username $DOCKER_USERNAME --password $DOCKER_PASSWORD registry.owncloud.com/collabora/server:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER}
+    when:
+      event: [ push, pull_request ]
+      status: [ success, failure ]
+
+  publish-image:
+    image: toolhippie/docker:latest
+    pull: true
+    secrets: [ docker_username, docker_password ]
+    environment:
+      - DOCKER_HOST=tcp://docker:2375
+    commands:
+      - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin registry.owncloud.com
+      - docker tag registry.owncloud.com/collabora/server:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} registry.owncloud.com/collabora/server:4
+      - docker push registry.owncloud.com/ocollabora/server:4
+      - docker tag registry.owncloud.com/collabora/server:${DRONE_COMMIT_SHA}-${DRONE_BUILD_NUMBER} registry.owncloud.com/collabora/server:latest
+      - docker push registry.owncloud.com/ocollabora/server:latest
+    when:
+      event: [ push ]
+
+  chat-notification:
+    image: plugins/slack:1
+    pull: true
+    secrets: [ slack_webhook ]
+    channel: docker
+    when:
+      local: false
+      event: [ push ]
+      status: [ changed, failure ]
+
+services:
+  docker:
+    image: docker:18.04-dind

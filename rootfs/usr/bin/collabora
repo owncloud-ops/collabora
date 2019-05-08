@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -eo pipefail
+[[ "${DEBUG}" == "true" ]] && set -x
+
+if [[ -z "${COLLABORA_ENTRYPOINT_INITIALIZED}" ]]
+then
+  for FILE in $(find /etc/entrypoint.d -iname \*.sh | sort)
+  do
+    source ${FILE}
+  done
+fi
+
+for FILE in $(find /etc/collabora.d -iname \*.sh | sort)
+do
+  source ${FILE}
+done
+
+if [[ -d "${COLLABORA_PRE_SERVER_PATH}" ]]
+then
+  for FILE in $(find ${COLLABORA_PRE_SERVER_PATH} -iname \*.sh | sort)
+  do
+    source ${FILE}
+  done
+fi
+
+echo "Starting loolwsd daemon..."
+if [[ "$(id -u)" == "0" ]]
+then
+  su-exec lool /usr/bin/loolwsd --version
+else
+  /usr/bin/loolwsd --version
+fi
+
+if [[ -d "${COLLABORA_POST_SERVER_PATH}" ]]
+then
+  for FILE in $(find ${COLLABORA_POST_SERVER_PATH} -iname \*.sh | sort)
+  do
+    source ${FILE}
+  done
+fi
