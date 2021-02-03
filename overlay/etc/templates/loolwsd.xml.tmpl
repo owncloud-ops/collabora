@@ -1,0 +1,166 @@
+<config>
+    <allowed_languages default="de_DE en_GB en_US es_ES fr_FR it nl pt_BR pt_PT ru">{{ getenv "COLLABORA_ALLOWED_LANGUAGES" "de_DE en_GB en_US es_ES fr_FR it nl pt_BR pt_PT ru" }}</allowed_languages>
+
+    <sys_template_path type="path" relative="true" default="systemplate">/opt/lool/systemplate</sys_template_path>
+    <child_root_path type="path" relative="true" default="jails">/opt/lool/child-roots</child_root_path>
+    <mount_jail_tree type="bool" default="true"></mount_jail_tree>
+
+    <server_name type="string" default="">{{ getenv "COLLABORA_SERVER_NAME" }}</server_name>
+    <file_server_root_path type="path" relative="true" default="loleaflet/../">/usr/share/loolwsd</file_server_root_path>
+
+    <memproportion type="double" default="80.0"></memproportion>
+    <num_prespawn_children type="uint" default="1">{{ getenv "COLLABORA_NUM_RESPAWN_CHILDREN" "1" }}</num_prespawn_children>
+    <per_document>
+        <max_concurrency type="uint" default="4">{{ getenv "COLLABORA_PER_DOCUMENT_MAX_CONCURRENCY" "4" }}</max_concurrency>
+        <batch_priority type="uint" default="5">5</batch_priority>
+        <document_signing_url type="string" default=""></document_signing_url>
+        <redlining_as_comments type="bool" default="false">{{ getenv "COLLABORA_PER_DOCUMENT_REDLINING_AS_COMMENT" "true" | conv.bool }}</redlining_as_comments>
+        <idle_timeout_secs type="uint" default="3600">{{ getenv "COLLABORA_PER_DOCUMENT_IDLE_TIMEOUT" "3600" }}</idle_timeout_secs>
+        <idlesave_duration_secs type="int" default="30">{{ getenv "COLLABORA_PER_DOCUMENT_IDLESAVE_DURATION" "30" }}</idlesave_duration_secs>
+        <autosave_duration_secs type="int" default="300">{{ getenv "COLLABORA_PER_DOCUMENT_AUTOSAVE_DURATION" "300" }}</autosave_duration_secs>
+        <always_save_on_exit type="bool" default="false">false</always_save_on_exit>
+        <limit_virt_mem_mb type="uint">0</limit_virt_mem_mb>
+        <limit_stack_mem_kb type="uint">8000</limit_stack_mem_kb>
+        <limit_file_size_mb type="uint">{{ getenv "COLLABORA_PER_DOCUMENT_LIMIT_FILE_SIZE" "0" }}</limit_file_size_mb>
+        <limit_num_open_files type="uint">{{ getenv "COLLABORA_PER_DOCUMENT_LIMIT_NUM_OPEN_FILES" "0" }}</limit_num_open_files>
+        <limit_load_secs type="uint" default="100">100</limit_load_secs>
+        <limit_convert_secs type="uint" default="100">100</limit_convert_secs>
+        <cleanup enable="false">
+            <cleanup_interval_ms type="uint" default="10000">10000</cleanup_interval_ms>
+            <bad_behavior_period_secs type="uint" default="60">60</bad_behavior_period_secs>
+            <idle_time_secs type="uint" default="300">300</idle_time_secs>
+            <limit_dirty_mem_mb type="uint" default="3072">3072</limit_dirty_mem_mb>
+            <limit_cpu_per type="uint" default="85">85</limit_cpu_per>
+        </cleanup>
+    </per_document>
+
+    <per_view>
+        <out_of_focus_timeout_secs type="uint" default="120">{{ getenv "COLLABORA_PER_VIEW_OUT_OF_FOCUS_TIMEOUT" "120" }}</out_of_focus_timeout_secs>
+        <idle_timeout_secs type="uint" default="900">{{ getenv "COLLABORA_PER_VIEW_IDLE_TIMEOUT" "900" }}</idle_timeout_secs>
+    </per_view>
+
+    <loleaflet_html type="string" default="loleaflet.html">loleaflet.html</loleaflet_html>
+
+    <logging>
+        <color type="bool">{{ getenv "COLLABORA_LOGGING_COLOR" "true" | conv.Bool }}</color>
+        <level type="string" default="warning">{{ getenv "COLLABORA_LOGGING_LEVEL" "warning" }}</level>
+        <protocol type="bool">false</protocol>
+        <lokit_sal_log type="string" default="-INFO-WARN">-INFO-WARN</lokit_sal_log>
+        <file enable="false">
+            <property name="path">/var/log/loolwsd.log</property>
+            <property name="rotation">never</property>
+            <property name="archive">timestamp</property>
+            <property name="compress">true</property>
+            <property name="purgeAge">10 days</property>
+            <property name="purgeCount">10</property>
+            <property name="rotateOnOpen">true</property>
+            <property name="flush">false</property>
+        </file>
+        <anonymize>
+            <anonymize_user_data type="bool" default="false">{{ getenv "COLLABORA_LOGGING_ANONYMIZE_USER_DATA" "false" | conv.Bool }}</anonymize_user_data>
+            <anonymization_salt type="uint" default="82589933">82589933</anonymization_salt>
+        </anonymize>
+    </logging>
+
+    <loleaflet_logging default="false">false</loleaflet_logging>
+
+    <trace enable="{{ getenv "COLLABORA_TRACE_ENABLE" "false" | conv.bool }}">
+        <path compress="true" snapshot="false"></path>
+        <filter>
+            {{- range (getenv "COLLABORA_TRACE_FILTER" | strings.Split ",") }}
+              <message>{{ . }}</message>
+            {{- end }}
+        </filter>
+        <outgoing>
+            <record default="false">false</record>
+        </outgoing>
+    </trace>
+
+    <net>
+      <proto type="string" default="all">{{ getenv "COLLABORA_NET_PROTO" "all" }}</proto>
+      <listen type="string" default="any">{{ getenv "COLLABORA_NET_LISTEN" "any" }}</listen>
+      <service_root type="path" default=""></service_root>
+      <proxy_prefix type="bool" default="false"></proxy_prefix>
+      <post_allow allow="{{ getenv "COLLABORA_NET_POST_ALLOW" "true" | conv.Bool }}">
+      {{- range (getenv "COLLABORA_NET_POST_ALLOW_HOSTS" "127.0.0.1,::1" | strings.Split ",") }}
+        <host>{{ . | strings.TrimSpace }}</host>
+      {{- end }}
+      </post_allow>
+      <frame_ancestors></frame_ancestors>
+      <connection_timeout_secs type="int" default="30"></connection_timeout_secs>
+    </net>
+
+    <ssl>
+        <enable type="bool" default="true">false</enable>
+        <termination type="bool" default="true">true</termination>
+        <cert_file_path relative="false">/etc/loolwsd/cert.pem</cert_file_path>
+        <key_file_path relative="false">/etc/loolwsd/key.pem</key_file_path>
+        <ca_file_path relative="false">/etc/loolwsd/ca-chain.cert.pem</ca_file_path>
+        <cipher_list default="ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"></cipher_list>
+        <hpkp enable="false" report_only="false">
+            <max_age enable="true">1000</max_age>
+            <report_uri enable="false"></report_uri>
+            <pins>
+            <pin></pin>
+            </pins>
+        </hpkp>
+    </ssl>
+
+    <security>
+      <seccomp type="bool" default="true">{{ getenv "COLLABORA_SECURITY_SECCOMP" "true" | conv.Bool }}</seccomp>
+      <capabilities type="bool" default="true">{{ getenv "COLLABORA_SECURITY_CAPABILITIES" "true" | conv.Bool }}</capabilities>
+    </security>
+
+    <watermark>
+      <opacity type="double" default="0.2"></opacity>
+      <text type="string"></text>
+    </watermark>
+
+    <welcome>
+      <enable type="bool" default="false">false</enable>
+      <enable_button type="bool" default="false">false</enable_button>
+      <path type="path" relative="true" default="loleaflet/welcome"></path>
+    </welcome>
+
+    <user_interface>
+      <mode type="string" default="classic">notebookbar</mode>
+    </user_interface>
+
+    <storage>
+        <filesystem allow="false" />
+        <wopi allow="{{ getenv "COLLABORA_STORAGE_WOPI_ALLOW" "true" | conv.bool }}">
+            {{- range (getenv "COLLABORA_STORAGE_WOPI_HOSTS_ALLOW" "localhost" | strings.Split ",") }}
+              <host allow="true">{{ . | strings.TrimSpace }}</host>
+            {{- end }}
+            <max_file_size type="uint">{{ getenv "COLLABORA_STORAGE_WOPI_MAX_FILE_SIZE" "0" }}</max_file_size>
+            <reuse_cookies type="bool" default="false">false</reuse_cookies>
+            <locking>
+                <refresh type="int" default="900">900</refresh>
+            </locking>
+        </wopi>
+        <webdav allow="false">
+            <host allow="false">localhost</host>
+        </webdav>
+        <ssl>
+	    <as_scheme type="bool" default="true">true</as_scheme>
+            <enable type="bool"></enable>
+            <cert_file_path relative="false"></cert_file_path>
+            <key_file_path relative="false"></key_file_path>
+            <ca_file_path relative="false"></ca_file_path>
+            <cipher_list></cipher_list>
+        </ssl>
+    </storage>
+
+    <tile_cache_persistent type="bool" default="true">true</tile_cache_persistent>
+
+    <admin_console>
+        <enable type="bool" default="true">{{ getenv "COLLABORA_ADMIN_CONSOLE_ENABLE" "true" | conv.Bool }}</enable>
+        <enable_pam type="bool" default="false">{{ getenv "COLLABORA_ADMIN_CONSOLE_ENABLE_PAM" "false" | conv.Bool }}</enable_pam>
+        <username>{{ getenv "COLLABORA_ADMIN_CONSOLE_USERNAME" }}</username>
+        <password>{{ getenv "COLLABORA_ADMIN_CONSOLE_PASSWORD" }}</password>
+    </admin_console>
+
+    <monitors>
+    </monitors>
+
+</config>

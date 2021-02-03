@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+source /usr/local/lib/log.sh
+
+/usr/local/bin/gomplate -o /etc/loolwsd/loolwsd.xml -f /etc/templates/loolwsd.xml.tmpl
+
+log_info "Fix name resolution"
+cp /etc/resolv.conf /etc/hosts /opt/lool/systemplate/etc/
+
+log_info "Start loolwsd daemon"
+exec /usr/bin/loolwsd --version
