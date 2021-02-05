@@ -8,5 +8,7 @@ source /usr/local/lib/log.sh
 log_info "Fix name resolution"
 cp /etc/resolv.conf /etc/hosts /opt/lool/systemplate/etc/
 
+loolwsd-generate-proof-key
+
 log_info "Start loolwsd daemon"
 exec /usr/bin/loolwsd --version

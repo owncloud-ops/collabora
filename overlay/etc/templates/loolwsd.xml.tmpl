@@ -14,7 +14,7 @@
         <max_concurrency type="uint" default="4">{{ getenv "COLLABORA_PER_DOCUMENT_MAX_CONCURRENCY" "4" }}</max_concurrency>
         <batch_priority type="uint" default="5">5</batch_priority>
         <document_signing_url type="string" default=""></document_signing_url>
-        <redlining_as_comments type="bool" default="false">{{ getenv "COLLABORA_PER_DOCUMENT_REDLINING_AS_COMMENT" "true" | conv.bool }}</redlining_as_comments>
+        <redlining_as_comments type="bool" default="false">{{ getenv "COLLABORA_PER_DOCUMENT_REDLINING_AS_COMMENT" "true" | conv.Bool }}</redlining_as_comments>
         <idle_timeout_secs type="uint" default="3600">{{ getenv "COLLABORA_PER_DOCUMENT_IDLE_TIMEOUT" "3600" }}</idle_timeout_secs>
         <idlesave_duration_secs type="int" default="30">{{ getenv "COLLABORA_PER_DOCUMENT_IDLESAVE_DURATION" "30" }}</idlesave_duration_secs>
         <autosave_duration_secs type="int" default="300">{{ getenv "COLLABORA_PER_DOCUMENT_AUTOSAVE_DURATION" "300" }}</autosave_duration_secs>
@@ -42,7 +42,7 @@
     <loleaflet_html type="string" default="loleaflet.html">loleaflet.html</loleaflet_html>
 
     <logging>
-        <color type="bool">{{ getenv "COLLABORA_LOGGING_COLOR" "true" | conv.Bool }}</color>
+        <color type="bool">{{ getenv "COLLABORA_LOGGING_COLOR" "false" | conv.Bool }}</color>
         <level type="string" default="warning">{{ getenv "COLLABORA_LOGGING_LEVEL" "warning" }}</level>
         <protocol type="bool">false</protocol>
         <lokit_sal_log type="string" default="-INFO-WARN">-INFO-WARN</lokit_sal_log>
@@ -64,7 +64,7 @@
 
     <loleaflet_logging default="false">false</loleaflet_logging>
 
-    <trace enable="{{ getenv "COLLABORA_TRACE_ENABLE" "false" | conv.bool }}">
+    <trace enable="{{ getenv "COLLABORA_TRACE_ENABLE" "false" | conv.Bool }}">
         <path compress="true" snapshot="false"></path>
         <filter>
             {{- range (getenv "COLLABORA_TRACE_FILTER" | strings.Split ",") }}
@@ -128,7 +128,7 @@
 
     <storage>
         <filesystem allow="false" />
-        <wopi allow="{{ getenv "COLLABORA_STORAGE_WOPI_ALLOW" "true" | conv.bool }}">
+        <wopi allow="{{ getenv "COLLABORA_STORAGE_WOPI_ALLOW" "true" | conv.Bool }}">
             {{- range (getenv "COLLABORA_STORAGE_WOPI_HOSTS_ALLOW" "localhost" | strings.Split ",") }}
               <host allow="true">{{ . | strings.TrimSpace }}</host>
             {{- end }}
