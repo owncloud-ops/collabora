@@ -13,7 +13,6 @@ ARG GOMPLATE_VERSION
 
 # renovate: datasource=github-releases depName=hairyhenderson/gomplate
 ENV GOMPLATE_VERSION="${GOMPLATE_VERSION:-v3.8.0}"
-
 ENV COLLABORA_VERSION="${BUILD_VERSION:-6.4}"
 
 ENV LC_CTYPE=C.UTF-8
