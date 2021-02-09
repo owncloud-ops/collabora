@@ -17,10 +17,10 @@ steps:
     dockerfile: Dockerfile
     dry_run: true
     password:
-      from_secret: docker_password
+      from_secret: registry_password
     repo: registry.owncloud.com/${DRONE_REPO_NAME}/server
     username:
-      from_secret: docker_username
+      from_secret: registry_username
   environment:
     COLLABORA_TOKEN:
       from_secret: collabora_token
@@ -49,10 +49,10 @@ steps:
     - COLLABORA_TOKEN
     dockerfile: Dockerfile
     password:
-      from_secret: docker_password
+      from_secret: registry_password
     repo: registry.owncloud.com/${DRONE_REPO_NAME}/server
     username:
-      from_secret: docker_username
+      from_secret: registry_username
   environment:
     COLLABORA_TOKEN:
       from_secret: collabora_token
