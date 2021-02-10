@@ -10,8 +10,6 @@ steps:
 - name: dryrun
   image: plugins/docker
   settings:
-    build_args:
-    - BUILD_VERSION=${DRONE_TAG%-*}
     build_args_from_env:
     - COLLABORA_TOKEN
     dockerfile: Dockerfile
@@ -39,8 +37,6 @@ steps:
 - name: publish
   image: plugins/docker
   settings:
-    build_args:
-    - BUILD_VERSION=${DRONE_TAG%-*}
     build_args_from_env:
     - COLLABORA_TOKEN
     dockerfile: Dockerfile
