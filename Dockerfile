@@ -18,7 +18,7 @@ ENV COLLABORA_VERSION="${BUILD_VERSION:-6.4}"
 ENV LC_CTYPE=C.UTF-8
 
 ADD overlay /
-WORKDIR /root
+WORKDIR /opt/lool
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
