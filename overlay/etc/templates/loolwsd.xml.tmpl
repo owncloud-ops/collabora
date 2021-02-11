@@ -67,7 +67,7 @@
     <trace enable="{{ getenv "COLLABORA_TRACE_ENABLE" "false" | conv.Bool }}">
         <path compress="true" snapshot="false"></path>
         <filter>
-            {{- range (getenv "COLLABORA_TRACE_FILTER" | strings.Split ",") }}
+            {{- range (getenv "COLLABORA_TRACE_FILTER" | strings.Split " ") }}
               <message>{{ . }}</message>
             {{- end }}
         </filter>
@@ -82,7 +82,7 @@
       <service_root type="path" default=""></service_root>
       <proxy_prefix type="bool" default="false"></proxy_prefix>
       <post_allow allow="{{ getenv "COLLABORA_NET_POST_ALLOW" "true" | conv.Bool }}">
-      {{- range (getenv "COLLABORA_NET_POST_ALLOW_HOSTS" "127.0.0.1,::1" | strings.Split ",") }}
+      {{- range (getenv "COLLABORA_NET_POST_ALLOW_HOSTS" "127.0.0.1 ::1" | strings.Split " ") }}
         <host>{{ . | strings.TrimSpace }}</host>
       {{- end }}
       </post_allow>
@@ -129,7 +129,7 @@
     <storage>
         <filesystem allow="false" />
         <wopi allow="{{ getenv "COLLABORA_STORAGE_WOPI_ALLOW" "true" | conv.Bool }}">
-            {{- range (getenv "COLLABORA_STORAGE_WOPI_HOSTS_ALLOW" "localhost" | strings.Split ",") }}
+            {{- range (getenv "COLLABORA_STORAGE_WOPI_HOSTS_ALLOW" "localhost" | strings.Split " ") }}
               <host allow="true">{{ . | strings.TrimSpace }}</host>
             {{- end }}
             <max_file_size type="uint">{{ getenv "COLLABORA_STORAGE_WOPI_MAX_FILE_SIZE" "0" }}</max_file_size>
