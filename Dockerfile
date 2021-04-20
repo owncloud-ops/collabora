@@ -10,9 +10,13 @@ LABEL org.opencontainers.image.documentation="https://github.com/owncloud-ops/co
 ARG COLLABORA_TOKEN
 ARG BUILD_VERSION
 ARG GOMPLATE_VERSION
+ARG COLLABORA_UPSTREAM_VERSION
 
 # renovate: datasource=github-releases depName=hairyhenderson/gomplate
 ENV GOMPLATE_VERSION="${GOMPLATE_VERSION:-v3.9.0}"
+# renovate: datasource=docker depName=collabora/code
+ENV COLLABORA_UPSTREAM_VERSION="${COLLABORA_UPSTREAM_VERSION:-6.4.7.4}"
+
 ENV COLLABORA_VERSION="${BUILD_VERSION:-6.4}"
 
 ENV LC_CTYPE=C.UTF-8
