@@ -10,14 +10,11 @@ LABEL org.opencontainers.image.documentation="https://github.com/owncloud-ops/co
 ARG COLLABORA_TOKEN
 ARG BUILD_VERSION
 ARG GOMPLATE_VERSION
-ARG COLLABORA_UPSTREAM_VERSION
 
 # renovate: datasource=github-releases depName=hairyhenderson/gomplate
 ENV GOMPLATE_VERSION="${GOMPLATE_VERSION:-v3.9.0}"
 # renovate: datasource=docker depName=collabora/code
-ENV COLLABORA_UPSTREAM_VERSION="${COLLABORA_UPSTREAM_VERSION:-6.4.7.4}"
-
-ENV COLLABORA_VERSION="${BUILD_VERSION:-6.4}"
+ENV COLLABORA_RAW_VERSION="${BUILD_VERSION:-6.4.7.4}"
 
 ENV LC_CTYPE=C.UTF-8
 
@@ -29,6 +26,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get install -y wget curl gnupg2 apt-transport-https ca-certificates fonts-open-sans openssh-client && \
     curl -SsL -o /usr/local/bin/gomplate https://github.com/hairyhenderson/gomplate/releases/download/v3.7.0/gomplate_linux-amd64-slim && \
     chmod 755 /usr/local/bin/gomplate && \
+    COLLABORA_VERSION=$(cut -d '.' -f 1 <<< "$COLLABORA_RAW_VERSION") %% \
+    echo "Setup Collabora v${COLLABORA_VERSION}" && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0C54D189F4BA284D && \
     echo "deb https://www.collaboraoffice.com/repos/CollaboraOnline/${COLLABORA_VERSION}/customer-debian10-${COLLABORA_TOKEN}/ /" | tee "/etc/apt/sources.list.d/collabora.list" && \
     apt-get update && \
