@@ -1,4 +1,4 @@
-FROM debian:10-slim@sha256:1b138699146ca36569f2f2098c8e22c56756b5776f7668a6a294f81a2bef2a2d
+FROM debian:10-slim@sha256:47e092810f101be84824f6d93885c18d20d53c8dda6b808392f62845eaf38cc5
 
 LABEL maintainer="ownCloud DevOps <devops@owncloud.com>"
 LABEL org.opencontainers.image.authors="ownCloud DevOps <devops@owncloud.com>"
