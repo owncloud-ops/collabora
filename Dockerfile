@@ -29,7 +29,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     COLLABORA_VERSION=$(echo "$COLLABORA_RAW_VERSION" | cut -d '.' -f 1,2) && \
     echo "Setup Collabora 'v$COLLABORA_VERSION'" && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0C54D189F4BA284D && \
-    echo "deb https://www.collaboraoffice.com/repos/CollaboraOnline/${COLLABORA_VERSION}/customer-debian10-${COLLABORA_TOKEN}/ /" | tee "/etc/apt/sources.list.d/collabora.list" && \
+    echo "deb https://www.collaboraoffice.com/repos/CollaboraOnline/${COLLABORA_VERSION}/customer-debian11-${COLLABORA_TOKEN}/ /" | tee "/etc/apt/sources.list.d/collabora.list" && \
     apt-get update && \
     apt-get -y install locales-all loolwsd collabora-online-brand collaboraoffice${COLLABORA_VERSION}-dict* \
       collaboraofficebasis${COLLABORA_VERSION}-ar collaboraofficebasis${COLLABORA_VERSION}-as collaboraofficebasis${COLLABORA_VERSION}-ast \
