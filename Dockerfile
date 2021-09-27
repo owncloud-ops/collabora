@@ -1,4 +1,4 @@
-FROM debian:10-slim@sha256:47e092810f101be84824f6d93885c18d20d53c8dda6b808392f62845eaf38cc5
+FROM debian:11-slim@sha256:e3ed4be20c22a1358020358331d177aa2860632f25b21681d79204ace20455a6
 
 LABEL maintainer="ownCloud DevOps <devops@owncloud.com>"
 LABEL org.opencontainers.image.authors="ownCloud DevOps <devops@owncloud.com>"
@@ -29,7 +29,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     COLLABORA_VERSION=$(echo "$COLLABORA_RAW_VERSION" | cut -d '.' -f 1,2) && \
     echo "Setup Collabora 'v$COLLABORA_VERSION'" && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0C54D189F4BA284D && \
-    echo "deb https://www.collaboraoffice.com/repos/CollaboraOnline/${COLLABORA_VERSION}/customer-debian10-${COLLABORA_TOKEN}/ /" | tee "/etc/apt/sources.list.d/collabora.list" && \
+    echo "deb https://www.collaboraoffice.com/repos/CollaboraOnline/${COLLABORA_VERSION}/customer-debian11-${COLLABORA_TOKEN}/ /" | tee "/etc/apt/sources.list.d/collabora.list" && \
     apt-get update && \
     apt-get -y install locales-all loolwsd collabora-online-brand collaboraoffice${COLLABORA_VERSION}-dict* \
       collaboraofficebasis${COLLABORA_VERSION}-ar collaboraofficebasis${COLLABORA_VERSION}-as collaboraofficebasis${COLLABORA_VERSION}-ast \
