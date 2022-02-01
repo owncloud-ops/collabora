@@ -91,8 +91,8 @@
     </net>
 
     <ssl>
-        <enable type="bool" default="true">false</enable>
-        <termination type="bool" default="true">true</termination>
+        <enable type="bool" default="false">{{ getenv "COLLABORA_SSL_ENABLE" "false" | conv.Bool }}</enable>
+        <termination type="bool" default="true">{{ getenv "COLLABORA_SSL_TERMINATION_ENABLE" "true" | conv.Bool }}</termination>
         <cert_file_path relative="false">/etc/coolwsd/cert.pem</cert_file_path>
         <key_file_path relative="false">/etc/coolwsd/key.pem</key_file_path>
         <ca_file_path relative="false">/etc/coolwsd/ca-chain.cert.pem</ca_file_path>
@@ -101,7 +101,7 @@
             <max_age enable="true">1000</max_age>
             <report_uri enable="false"></report_uri>
             <pins>
-            <pin></pin>
+                <pin></pin>
             </pins>
         </hpkp>
     </ssl>
@@ -142,7 +142,7 @@
             <host allow="false">localhost</host>
         </webdav>
         <ssl>
-	    <as_scheme type="bool" default="true">true</as_scheme>
+            <as_scheme type="bool" default="true">true</as_scheme>
             <enable type="bool"></enable>
             <cert_file_path relative="false"></cert_file_path>
             <key_file_path relative="false"></key_file_path>
