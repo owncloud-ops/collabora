@@ -7,7 +7,7 @@ Custom Docker image for [Collabora](https://www.collaboraoffice.com).
 
 ## Versioning
 
-The used version tags are representing the minor upstream versions. The patch release number is continuously increased by us and don't reflect the full upstream release directly. Example: `v6.4.10` means the image contains Collabora `v6.4` but **not** necessarily Collabora `v6.4.10`.
+The used version tags are representing the minor upstream versions. The patch release number is continuously increased by us and don't reflect the full upstream release directly. Example: `v21.11.5` means the image contains Collabora `v21.11` but **not** necessarily Collabora `v21.11.5`.
 
 ## Environment Variables
 
