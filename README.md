@@ -53,7 +53,7 @@ COLLABORA_TRACE_FILTER=
 You could use the `BUILD_VERSION` to specify the target version.
 
 ```Shell
-docker build --build-arg BUILD_VERSION=6.4 -f Dockerfile -t collabora:latest .
+docker build --build-arg BUILD_VERSION=21.1 -f Dockerfile -t collabora:latest .
 ```
 
 ## License

@@ -14,12 +14,12 @@ ARG GOMPLATE_VERSION
 # renovate: datasource=github-releases depName=hairyhenderson/gomplate
 ENV GOMPLATE_VERSION="${GOMPLATE_VERSION:-v3.10.0}"
 # renovate: datasource=docker depName=collabora/code
-ENV COLLABORA_RAW_VERSION="${BUILD_VERSION:-6.4.14.3}"
+ENV COLLABORA_RAW_VERSION="${BUILD_VERSION:-21.11.1.4.1}"
 
 ENV LC_CTYPE=C.UTF-8
 
 ADD overlay /
-WORKDIR /opt/lool
+WORKDIR /opt/cool
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
@@ -28,54 +28,55 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     chmod 755 /usr/local/bin/gomplate && \
     COLLABORA_VERSION=$(echo "$COLLABORA_RAW_VERSION" | cut -d '.' -f 1,2) && \
     echo "Setup Collabora 'v$COLLABORA_VERSION'" && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0C54D189F4BA284D && \
-    echo "deb https://www.collaboraoffice.com/repos/CollaboraOnline/${COLLABORA_VERSION}/customer-debian11-${COLLABORA_TOKEN}/ /" | tee "/etc/apt/sources.list.d/collabora.list" && \
+    curl -SsL -o /usr/share/keyrings/collaboraonline-release-keyring.gpg https://collaboraoffice.com/downloads/gpg/collaboraonline-release-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/collaboraonline-release-keyring.gpg] https://www.collaboraoffice.com/repos/CollaboraOnline/${COLLABORA_VERSION}/customer-debian11-${COLLABORA_TOKEN} /" | tee "/etc/apt/sources.list.d/collabora.list" && \
     apt-get update && \
-    apt-get -y install locales-all loolwsd collabora-online-brand collaboraoffice${COLLABORA_VERSION}-dict* \
-      collaboraofficebasis${COLLABORA_VERSION}-ar collaboraofficebasis${COLLABORA_VERSION}-as collaboraofficebasis${COLLABORA_VERSION}-ast \
-      collaboraofficebasis${COLLABORA_VERSION}-bg collaboraofficebasis${COLLABORA_VERSION}-bn-in \
-      collaboraofficebasis${COLLABORA_VERSION}-br collaboraofficebasis${COLLABORA_VERSION}-ca \
-      collaboraofficebasis${COLLABORA_VERSION}-calc collaboraofficebasis${COLLABORA_VERSION}-ca-valencia \
-      collaboraofficebasis${COLLABORA_VERSION}-core collaboraofficebasis${COLLABORA_VERSION}-cs \
-      collaboraofficebasis${COLLABORA_VERSION}-cy collaboraofficebasis${COLLABORA_VERSION}-da \
-      collaboraofficebasis${COLLABORA_VERSION}-de collaboraofficebasis${COLLABORA_VERSION}-draw \
-      collaboraofficebasis${COLLABORA_VERSION}-el collaboraofficebasis${COLLABORA_VERSION}-en-gb \
-      collaboraofficebasis${COLLABORA_VERSION}-en-us collaboraofficebasis${COLLABORA_VERSION}-es \
-      collaboraofficebasis${COLLABORA_VERSION}-et collaboraofficebasis${COLLABORA_VERSION}-eu \
-      collaboraofficebasis${COLLABORA_VERSION}-extension-pdf-import collaboraofficebasis${COLLABORA_VERSION}-fi \
-      collaboraofficebasis${COLLABORA_VERSION}-fr collaboraofficebasis${COLLABORA_VERSION}-ga \
-      collaboraofficebasis${COLLABORA_VERSION}-gd collaboraofficebasis${COLLABORA_VERSION}-gl \
-      collaboraofficebasis${COLLABORA_VERSION}-graphicfilter collaboraofficebasis${COLLABORA_VERSION}-gu \
-      collaboraofficebasis${COLLABORA_VERSION}-he collaboraofficebasis${COLLABORA_VERSION}-hi \
-      collaboraofficebasis${COLLABORA_VERSION}-hr collaboraofficebasis${COLLABORA_VERSION}-hu \
-      collaboraofficebasis${COLLABORA_VERSION}-id collaboraofficebasis${COLLABORA_VERSION}-images \
-      collaboraofficebasis${COLLABORA_VERSION}-impress collaboraofficebasis${COLLABORA_VERSION}-is \
-      collaboraofficebasis${COLLABORA_VERSION}-it collaboraofficebasis${COLLABORA_VERSION}-ja \
-      collaboraofficebasis${COLLABORA_VERSION}-km collaboraofficebasis${COLLABORA_VERSION}-kn \
-      collaboraofficebasis${COLLABORA_VERSION}-ko collaboraofficebasis${COLLABORA_VERSION}-lt \
-      collaboraofficebasis${COLLABORA_VERSION}-lv collaboraofficebasis${COLLABORA_VERSION}-ml \
-      collaboraofficebasis${COLLABORA_VERSION}-mr collaboraofficebasis${COLLABORA_VERSION}-nb \
-      collaboraofficebasis${COLLABORA_VERSION}-nl collaboraofficebasis${COLLABORA_VERSION}-nn \
-      collaboraofficebasis${COLLABORA_VERSION}-oc collaboraofficebasis${COLLABORA_VERSION}-ooofonts \
-      collaboraofficebasis${COLLABORA_VERSION}-ooolinguistic collaboraofficebasis${COLLABORA_VERSION}-or \
-      collaboraofficebasis${COLLABORA_VERSION}-pa-in collaboraofficebasis${COLLABORA_VERSION}-pl \
-      collaboraofficebasis${COLLABORA_VERSION}-pt collaboraofficebasis${COLLABORA_VERSION}-pt-br \
-      collaboraofficebasis${COLLABORA_VERSION}-ro collaboraofficebasis${COLLABORA_VERSION}-ru \
-      collaboraofficebasis${COLLABORA_VERSION}-sk collaboraofficebasis${COLLABORA_VERSION}-sl \
-      collaboraofficebasis${COLLABORA_VERSION}-sr collaboraofficebasis${COLLABORA_VERSION}-sr-latn \
-      collaboraofficebasis${COLLABORA_VERSION}-sv collaboraofficebasis${COLLABORA_VERSION}-ta \
-      collaboraofficebasis${COLLABORA_VERSION}-te collaboraofficebasis${COLLABORA_VERSION}-tr \
-      collaboraofficebasis${COLLABORA_VERSION}-uk collaboraofficebasis${COLLABORA_VERSION}-vi \
-      collaboraofficebasis${COLLABORA_VERSION}-writer collaboraofficebasis${COLLABORA_VERSION}-zh-cn \
-      collaboraofficebasis${COLLABORA_VERSION}-zh-tw && \
-    chown lool:lool /opt/lool/systemplate/etc/hosts /opt/lool/systemplate/etc/resolv.conf && \
-    chown lool:lool /etc/loolwsd && \
+    apt-get -y install locales-all coolwsd collabora-online-brand collaboraoffice-dict* \
+      collaboraofficebasis-ar collaboraofficebasis-as collaboraofficebasis-ast \
+      collaboraofficebasis-bg collaboraofficebasis-bn-in \
+      collaboraofficebasis-br collaboraofficebasis-ca \
+      collaboraofficebasis-calc collaboraofficebasis-ca-valencia \
+      collaboraofficebasis-core collaboraofficebasis-cs \
+      collaboraofficebasis-cy collaboraofficebasis-da \
+      collaboraofficebasis-de collaboraofficebasis-draw \
+      collaboraofficebasis-el collaboraofficebasis-en-gb \
+      collaboraofficebasis-en-us collaboraofficebasis-es \
+      collaboraofficebasis-et collaboraofficebasis-eu \
+      collaboraofficebasis-extension-pdf-import collaboraofficebasis-fi \
+      collaboraofficebasis-fr collaboraofficebasis-ga \
+      collaboraofficebasis-gd collaboraofficebasis-gl \
+      collaboraofficebasis-graphicfilter collaboraofficebasis-gu \
+      collaboraofficebasis-he collaboraofficebasis-hi \
+      collaboraofficebasis-hr collaboraofficebasis-hu \
+      collaboraofficebasis-id collaboraofficebasis-images \
+      collaboraofficebasis-impress collaboraofficebasis-is \
+      collaboraofficebasis-it collaboraofficebasis-ja \
+      collaboraofficebasis-km collaboraofficebasis-kn \
+      collaboraofficebasis-ko collaboraofficebasis-lt \
+      collaboraofficebasis-lv collaboraofficebasis-ml \
+      collaboraofficebasis-mr collaboraofficebasis-nb \
+      collaboraofficebasis-nl collaboraofficebasis-nn \
+      collaboraofficebasis-oc collaboraofficebasis-ooofonts \
+      collaboraofficebasis-ooolinguistic collaboraofficebasis-or \
+      collaboraofficebasis-pa-in collaboraofficebasis-pl \
+      collaboraofficebasis-pt collaboraofficebasis-pt-br \
+      collaboraofficebasis-ro collaboraofficebasis-ru \
+      collaboraofficebasis-sk collaboraofficebasis-sl \
+      collaboraofficebasis-sr collaboraofficebasis-sr-latn \
+      collaboraofficebasis-sv collaboraofficebasis-ta \
+      collaboraofficebasis-te collaboraofficebasis-tr \
+      collaboraofficebasis-uk collaboraofficebasis-vi \
+      collaboraofficebasis-writer collaboraofficebasis-zh-cn \
+      collaboraofficebasis-zh-tw && \
+    chown cool:cool /opt/cool/systemplate/etc/hosts /opt/cool/systemplate/etc/resolv.conf && \
+    chown cool:cool /etc/coolwsd && \
+    rm -rf /etc/coolwsd/proof_key* && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
 
 EXPOSE 9980
 
-USER lool
+USER cool
 
 ENTRYPOINT ["/usr/bin/entrypoint"]
 CMD ["/usr/bin/collabora"]

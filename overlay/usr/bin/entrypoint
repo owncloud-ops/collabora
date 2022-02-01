@@ -2,14 +2,15 @@
 
 set -eo pipefail
 
+# shellcheck disable=SC1091
 source /usr/local/lib/log.sh
 
-/usr/local/bin/gomplate -o /etc/loolwsd/loolwsd.xml -f /etc/templates/loolwsd.xml.tmpl
+/usr/local/bin/gomplate -o /etc/coolwsd/coolwsd.xml -f /etc/templates/coolwsd.xml.tmpl
 
 log_info "Fix name resolution"
-cp /etc/resolv.conf /etc/hosts /opt/lool/systemplate/etc/
+cp /etc/resolv.conf /etc/hosts /opt/cool/systemplate/etc/
 
-loolwsd-generate-proof-key
+coolwsd-generate-proof-key
 
-log_info "Start loolwsd daemon"
-exec /usr/bin/loolwsd --version
+log_info "Start coolwsd daemon"
+exec /usr/bin/coolwsd --version
