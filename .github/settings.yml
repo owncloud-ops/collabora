@@ -1,8 +1,8 @@
 ---
 repository:
   name: collabora
-  description: Docker image for collabora.
-  topics: docker, collabora
+  description: Custom container image for Collabora Online
+  topics: oci, container, collabora
 
   private: false
   has_issues: true
