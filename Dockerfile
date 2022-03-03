@@ -14,7 +14,7 @@ ARG GOMPLATE_VERSION
 # renovate: datasource=github-releases depName=hairyhenderson/gomplate
 ENV GOMPLATE_VERSION="${GOMPLATE_VERSION:-v3.10.0}"
 # renovate: datasource=docker depName=collabora/code
-ENV COLLABORA_RAW_VERSION="${BUILD_VERSION:-21.11.2.3.1}"
+ENV COLLABORA_RAW_VERSION="${BUILD_VERSION:-21.11.2.4.1}"
 
 ENV LC_CTYPE=C.UTF-8
 
