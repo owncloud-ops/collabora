@@ -10,11 +10,14 @@ LABEL org.opencontainers.image.documentation="https://github.com/owncloud-ops/co
 ARG COLLABORA_TOKEN
 ARG BUILD_VERSION
 ARG GOMPLATE_VERSION
+ARG CONTAINER_LIBRARY_VERSION
 
 # renovate: datasource=github-releases depName=hairyhenderson/gomplate
 ENV GOMPLATE_VERSION="${GOMPLATE_VERSION:-v3.10.0}"
 # renovate: datasource=docker depName=collabora/code
 ENV COLLABORA_RAW_VERSION="${BUILD_VERSION:-21.11.3.6.1}"
+# renovate: datasource=github-releases depName=owncloud-op/container-library
+ENV CONTAINER_LIBRARY_VERSION="${CONTAINER_LIBRARY_VERSION:-v0.1.0}"
 
 ENV LC_CTYPE=C.UTF-8
 
@@ -25,6 +28,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get install -y wget curl gnupg2 apt-transport-https ca-certificates fonts-open-sans openssh-client && \
     curl -SsL -o /usr/local/bin/gomplate "https://github.com/hairyhenderson/gomplate/releases/download/${GOMPLATE_VERSION}/gomplate_linux-amd64-slim" && \
+    curl -SsL "https://github.com/owncloud-ops/container-library/releases/download/${CONTAINER_LIBRARY_VERSION}/container-library.tar.gz" | tar xz -C / && \
     chmod 755 /usr/local/bin/gomplate && \
     COLLABORA_VERSION=$(echo "$COLLABORA_RAW_VERSION" | cut -d '.' -f 1,2) && \
     echo "Setup Collabora 'v$COLLABORA_VERSION'" && \
