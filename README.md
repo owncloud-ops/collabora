@@ -60,4 +60,4 @@ docker build --build-arg BUILD_VERSION=21.1 -f Dockerfile -t collabora:latest .
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](https://github.com/owncloud-ops/collabora/blob/master/LICENSE) file for details.
+This project is licensed under the Apache 2.0 License - see the [LICENSE](https://github.com/owncloud-ops/collabora/blob/main/LICENSE) file for details.
