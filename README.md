@@ -55,7 +55,7 @@ COLLABORA_SSL_TERMINATION_ENABLE=true
 You could use the `BUILD_VERSION` to specify the target version.
 
 ```Shell
-docker build --build-arg BUILD_VERSION=21.1 -f Dockerfile -t collabora:latest .
+docker build --build-arg BUILD_VERSION=21.11 -f Dockerfile -t collabora:latest .
 ```
 
 ## License
