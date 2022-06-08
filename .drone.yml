@@ -73,6 +73,7 @@ steps:
     DOCKER_AUTOTAG_OUTPUT_FILE: .tags
     DOCKER_AUTOTAG_VERSION: ${DRONE_TAG}
     DOCKER_AUTOTAG_SUFFIX: ubi
+    DOCKER_AUTOTAG_SUFFIX_STRICT: True
 
 - name: dryrun
   image: plugins/docker
