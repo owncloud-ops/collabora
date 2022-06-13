@@ -14,7 +14,7 @@
         <max_concurrency type="uint" default="4">{{ getenv "COLLABORA_PER_DOCUMENT_MAX_CONCURRENCY" "4" }}</max_concurrency>
         <batch_priority type="uint" default="5">5</batch_priority>
         <document_signing_url type="string" default=""></document_signing_url>
-        <redlining_as_comments type="bool" default="false">{{ getenv "COLLABORA_PER_DOCUMENT_REDLINING_AS_COMMENT" "true" | conv.Bool }}</redlining_as_comments>
+        <redlining_as_comments type="bool" default="false">{{ getenv "COLLABORA_PER_DOCUMENT_REDLINING_AS_COMMENT" "true" | conv.ToBool }}</redlining_as_comments>
         <idle_timeout_secs type="uint" default="3600">{{ getenv "COLLABORA_PER_DOCUMENT_IDLE_TIMEOUT" "3600" }}</idle_timeout_secs>
         <idlesave_duration_secs type="int" default="30">{{ getenv "COLLABORA_PER_DOCUMENT_IDLESAVE_DURATION" "30" }}</idlesave_duration_secs>
         <autosave_duration_secs type="int" default="300">{{ getenv "COLLABORA_PER_DOCUMENT_AUTOSAVE_DURATION" "300" }}</autosave_duration_secs>
@@ -42,7 +42,7 @@
     <loleaflet_html type="string" default="loleaflet.html">loleaflet.html</loleaflet_html>
 
     <logging>
-        <color type="bool">{{ getenv "COLLABORA_LOGGING_COLOR" "false" | conv.Bool }}</color>
+        <color type="bool">{{ getenv "COLLABORA_LOGGING_COLOR" "false" | conv.ToBool }}</color>
         <level type="string" default="warning">{{ getenv "COLLABORA_LOGGING_LEVEL" "warning" }}</level>
         <protocol type="bool">false</protocol>
         <lokit_sal_log type="string" default="-INFO-WARN">-INFO-WARN</lokit_sal_log>
@@ -57,14 +57,14 @@
             <property name="flush">false</property>
         </file>
         <anonymize>
-            <anonymize_user_data type="bool" default="false">{{ getenv "COLLABORA_LOGGING_ANONYMIZE_USER_DATA" "false" | conv.Bool }}</anonymize_user_data>
+            <anonymize_user_data type="bool" default="false">{{ getenv "COLLABORA_LOGGING_ANONYMIZE_USER_DATA" "false" | conv.ToBool }}</anonymize_user_data>
             <anonymization_salt type="uint" default="82589933">82589933</anonymization_salt>
         </anonymize>
     </logging>
 
     <loleaflet_logging default="false">false</loleaflet_logging>
 
-    <trace enable="{{ getenv "COLLABORA_TRACE_ENABLE" "false" | conv.Bool }}">
+    <trace enable="{{ getenv "COLLABORA_TRACE_ENABLE" "false" | conv.ToBool }}">
         <path compress="true" snapshot="false"></path>
         <filter>
             {{- range (getenv "COLLABORA_TRACE_FILTER" | strings.Split " ") }}
@@ -81,7 +81,7 @@
       <listen type="string" default="any">{{ getenv "COLLABORA_NET_LISTEN" "any" }}</listen>
       <service_root type="path" default=""></service_root>
       <proxy_prefix type="bool" default="false"></proxy_prefix>
-      <post_allow allow="{{ getenv "COLLABORA_NET_POST_ALLOW" "true" | conv.Bool }}">
+      <post_allow allow="{{ getenv "COLLABORA_NET_POST_ALLOW" "true" | conv.ToBool }}">
       {{- range (getenv "COLLABORA_NET_POST_ALLOW_HOSTS" "127.0.0.1 ::1" | strings.Split " ") }}
         <host>{{ . | strings.TrimSpace }}</host>
       {{- end }}
@@ -91,8 +91,8 @@
     </net>
 
     <ssl>
-        <enable type="bool" default="false">{{ getenv "COLLABORA_SSL_ENABLE" "false" | conv.Bool }}</enable>
-        <termination type="bool" default="true">{{ getenv "COLLABORA_SSL_TERMINATION_ENABLE" "true" | conv.Bool }}</termination>
+        <enable type="bool" default="false">{{ getenv "COLLABORA_SSL_ENABLE" "false" | conv.ToBool }}</enable>
+        <termination type="bool" default="true">{{ getenv "COLLABORA_SSL_TERMINATION_ENABLE" "true" | conv.ToBool }}</termination>
         <cert_file_path relative="false">/etc/coolwsd/cert.pem</cert_file_path>
         <key_file_path relative="false">/etc/coolwsd/key.pem</key_file_path>
         <ca_file_path relative="false">/etc/coolwsd/ca-chain.cert.pem</ca_file_path>
@@ -107,8 +107,8 @@
     </ssl>
 
     <security>
-      <seccomp type="bool" default="true">{{ getenv "COLLABORA_SECURITY_SECCOMP" "true" | conv.Bool }}</seccomp>
-      <capabilities type="bool" default="true">{{ getenv "COLLABORA_SECURITY_CAPABILITIES" "true" | conv.Bool }}</capabilities>
+      <seccomp type="bool" default="true">{{ getenv "COLLABORA_SECURITY_SECCOMP" "true" | conv.ToBool }}</seccomp>
+      <capabilities type="bool" default="true">{{ getenv "COLLABORA_SECURITY_CAPABILITIES" "true" | conv.ToBool }}</capabilities>
     </security>
 
     <watermark>
@@ -128,7 +128,7 @@
 
     <storage>
         <filesystem allow="false" />
-        <wopi allow="{{ getenv "COLLABORA_STORAGE_WOPI_ALLOW" "true" | conv.Bool }}">
+        <wopi allow="{{ getenv "COLLABORA_STORAGE_WOPI_ALLOW" "true" | conv.ToBool }}">
             {{- range (getenv "COLLABORA_STORAGE_WOPI_HOSTS_ALLOW" "localhost" | strings.Split " ") }}
               <host allow="true">{{ . | strings.TrimSpace }}</host>
             {{- end }}
@@ -154,8 +154,8 @@
     <tile_cache_persistent type="bool" default="true">true</tile_cache_persistent>
 
     <admin_console>
-        <enable type="bool" default="true">{{ getenv "COLLABORA_ADMIN_CONSOLE_ENABLE" "true" | conv.Bool }}</enable>
-        <enable_pam type="bool" default="false">{{ getenv "COLLABORA_ADMIN_CONSOLE_ENABLE_PAM" "false" | conv.Bool }}</enable_pam>
+        <enable type="bool" default="true">{{ getenv "COLLABORA_ADMIN_CONSOLE_ENABLE" "true" | conv.ToBool }}</enable>
+        <enable_pam type="bool" default="false">{{ getenv "COLLABORA_ADMIN_CONSOLE_ENABLE_PAM" "false" | conv.ToBool }}</enable_pam>
         <username>{{ getenv "COLLABORA_ADMIN_CONSOLE_USERNAME" }}</username>
         <password>{{ getenv "COLLABORA_ADMIN_CONSOLE_PASSWORD" }}</password>
     </admin_console>
