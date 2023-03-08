@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: container-debian
+name: container
 
 platform:
   os: linux
@@ -36,66 +36,6 @@ steps:
     build_args_from_env:
     - COLLABORA_TOKEN
     dockerfile: Dockerfile
-    password:
-      from_secret: registry_password
-    registry: registry.owncloud.com
-    repo: registry.owncloud.com/${DRONE_REPO_NAME}/server
-    username:
-      from_secret: registry_username
-  environment:
-    COLLABORA_TOKEN:
-      from_secret: collabora_token
-  when:
-    ref:
-    - refs/heads/main
-    - refs/tags/**
-
-trigger:
-  ref:
-  - refs/heads/main
-  - refs/tags/**
-  - refs/pull/**
-
----
-kind: pipeline
-name: container-ubi
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: tags
-  image: thegeeklab/docker-autotag
-  environment:
-    DOCKER_AUTOTAG_FORCE_LATEST: True
-    DOCKER_AUTOTAG_IGNORE_PRERELEASE: True
-    DOCKER_AUTOTAG_OUTPUT_FILE: .tags
-    DOCKER_AUTOTAG_VERSION: ${DRONE_TAG}
-    DOCKER_AUTOTAG_SUFFIX: ubi
-    DOCKER_AUTOTAG_SUFFIX_STRICT: True
-
-- name: dryrun
-  image: plugins/docker
-  settings:
-    build_args_from_env:
-    - COLLABORA_TOKEN
-    dockerfile: Dockerfile-ubi
-    dry_run: true
-    repo: registry.owncloud.com/${DRONE_REPO_NAME}/server
-  environment:
-    COLLABORA_TOKEN:
-      from_secret: collabora_token
-  when:
-    ref:
-    - refs/pull/**
-
-- name: publish
-  image: plugins/docker
-  settings:
-    build_args_from_env:
-    - COLLABORA_TOKEN
-    dockerfile: Dockerfile-ubi
     password:
       from_secret: registry_password
     registry: registry.owncloud.com
@@ -151,8 +91,7 @@ trigger:
   - refs/pull/**
 
 depends_on:
-  - container-debian
-  - container-ubi
+  - container
 
 ---
 kind: pipeline
