@@ -29,6 +29,17 @@ steps:
   when:
     ref:
     - refs/pull/**
+  depends_on:
+    - tags
+
+- name: changelog
+  image: quay.io/thegeeklab/git-chglog
+  commands:
+  - git fetch -tq
+  - git-chglog --no-color --no-emoji ${DRONE_TAG:---next-tag unreleased unreleased}
+  - git-chglog --no-color --no-emoji -o CHANGELOG.md ${DRONE_TAG:---next-tag unreleased unreleased}
+  depends_on:
+    - dryrun
 
 - name: publish-registry
   image: docker.io/plugins/docker
@@ -49,28 +60,8 @@ steps:
     ref:
     - refs/heads/main
     - refs/tags/**
-
-trigger:
-  ref:
-  - refs/heads/main
-  - refs/tags/**
-  - refs/pull/**
-
----
-kind: pipeline
-name: release
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: changelog
-  image: quay.io/thegeeklab/git-chglog
-  commands:
-  - git fetch -tq
-  - git-chglog --no-color --no-emoji ${DRONE_TAG:---next-tag unreleased unreleased}
-  - git-chglog --no-color --no-emoji -o CHANGELOG.md ${DRONE_TAG:---next-tag unreleased unreleased}
+  depends_on:
+    - changelog
 
 - name: release
   image: docker.io/plugins/github-release
@@ -83,15 +74,14 @@ steps:
   when:
     ref:
     - refs/tags/**
+  depends_on:
+    - publish-registry
 
 trigger:
   ref:
   - refs/heads/main
   - refs/tags/**
   - refs/pull/**
-
-depends_on:
-  - container
 
 ---
 kind: pipeline
@@ -122,6 +112,6 @@ trigger:
   - failure
 
 depends_on:
-- release
+- container
 
 ...
