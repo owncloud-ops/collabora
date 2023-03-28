@@ -8,7 +8,7 @@ platform:
 
 steps:
 - name: tags
-  image: thegeeklab/docker-autotag
+  image: quay.io/thegeeklab/docker-autotag
   environment:
     DOCKER_AUTOTAG_FORCE_LATEST: True
     DOCKER_AUTOTAG_IGNORE_PRERELEASE: True
@@ -16,7 +16,7 @@ steps:
     DOCKER_AUTOTAG_VERSION: ${DRONE_TAG}
 
 - name: dryrun
-  image: plugins/docker
+  image: docker.io/plugins/docker
   settings:
     build_args_from_env:
     - COLLABORA_TOKEN
@@ -30,8 +30,8 @@ steps:
     ref:
     - refs/pull/**
 
-- name: publish
-  image: plugins/docker
+- name: publish-registry
+  image: docker.io/plugins/docker
   settings:
     build_args_from_env:
     - COLLABORA_TOKEN
@@ -66,14 +66,14 @@ platform:
 
 steps:
 - name: changelog
-  image: thegeeklab/git-chglog
+  image: quay.io/thegeeklab/git-chglog
   commands:
   - git fetch -tq
   - git-chglog --no-color --no-emoji ${DRONE_TAG:---next-tag unreleased unreleased}
   - git-chglog --no-color --no-emoji -o CHANGELOG.md ${DRONE_TAG:---next-tag unreleased unreleased}
 
 - name: release
-  image: plugins/github-release
+  image: docker.io/plugins/github-release
   settings:
     api_key:
       from_secret: github_token
@@ -103,7 +103,7 @@ platform:
 
 steps:
 - name: notify
-  image: plugins/slack
+  image: docker.io/plugins/slack
   settings:
     channel:
       from_secret: slack_channel
