@@ -162,5 +162,13 @@
 
     <monitors>
     </monitors>
+    {{- if (getenv "COLLABORA_PLUGIN_DEEPL_ENABLED" "false" | conv.ToBool) }}
+
+    <deepl>
+        <enabled type="bool" default="false">true</enabled>
+        <api_url type="string" default="">https://api-free.deepl.com/v2/translate</api_url>
+        <auth_key type="string" default="">{{ getenv "COLLABORA_PLUGIN_DEEPL_AUTH_KEY" }}</auth_key>
+    </deepl>
+    {{- end }}
 
 </config>
