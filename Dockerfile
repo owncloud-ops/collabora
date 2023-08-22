@@ -32,45 +32,50 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     chmod 755 /usr/local/bin/gomplate && \
     COLLABORA_VERSION=$(echo "$COLLABORA_RAW_VERSION" | cut -d '.' -f 1,2) && \
     echo "Setup Collabora 'v$COLLABORA_VERSION'" && \
-    curl -SsfL -o /usr/share/keyrings/collaboraonline-release-keyring.gpg https://collaboraoffice.com/downloads/gpg/collaboraonline-release-keyring.gpg && \
+    curl -SsfL -o /usr/share/keyrings/collaboraonline-release-keyring.gpg https://www.collaboraoffice.com/downloads/gpg/collaboraonline-release-keyring.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/collaboraonline-release-keyring.gpg] https://www.collaboraoffice.com/repos/CollaboraOnline/${COLLABORA_VERSION}/customer-debian11-${COLLABORA_TOKEN} /" | tee "/etc/apt/sources.list.d/collabora.list" && \
     apt-get update && \
-    apt-get -y install locales-all coolwsd collabora-online-brand collaboraoffice-dict* \
-      collaboraofficebasis-ar collaboraofficebasis-as collaboraofficebasis-ast \
-      collaboraofficebasis-bg collaboraofficebasis-bn-in \
-      collaboraofficebasis-br collaboraofficebasis-ca \
-      collaboraofficebasis-calc collaboraofficebasis-ca-valencia \
-      collaboraofficebasis-core collaboraofficebasis-cs \
-      collaboraofficebasis-cy collaboraofficebasis-da \
-      collaboraofficebasis-de collaboraofficebasis-draw \
-      collaboraofficebasis-el collaboraofficebasis-en-gb \
-      collaboraofficebasis-en-us collaboraofficebasis-es \
-      collaboraofficebasis-et collaboraofficebasis-eu \
-      collaboraofficebasis-extension-pdf-import collaboraofficebasis-fi \
-      collaboraofficebasis-fr collaboraofficebasis-ga \
-      collaboraofficebasis-gd collaboraofficebasis-gl \
-      collaboraofficebasis-graphicfilter collaboraofficebasis-gu \
-      collaboraofficebasis-he collaboraofficebasis-hi \
-      collaboraofficebasis-hr collaboraofficebasis-hu \
-      collaboraofficebasis-id collaboraofficebasis-images \
-      collaboraofficebasis-impress collaboraofficebasis-is \
-      collaboraofficebasis-it collaboraofficebasis-ja \
-      collaboraofficebasis-km collaboraofficebasis-kn \
-      collaboraofficebasis-ko collaboraofficebasis-lt \
-      collaboraofficebasis-lv collaboraofficebasis-ml \
-      collaboraofficebasis-mr collaboraofficebasis-nb \
-      collaboraofficebasis-nl collaboraofficebasis-nn \
-      collaboraofficebasis-oc collaboraofficebasis-ooofonts \
-      collaboraofficebasis-ooolinguistic collaboraofficebasis-or \
-      collaboraofficebasis-pa-in collaboraofficebasis-pl \
-      collaboraofficebasis-pt collaboraofficebasis-pt-br \
-      collaboraofficebasis-ro collaboraofficebasis-ru \
-      collaboraofficebasis-sk collaboraofficebasis-sl \
-      collaboraofficebasis-sr collaboraofficebasis-sr-latn \
-      collaboraofficebasis-sv collaboraofficebasis-ta \
-      collaboraofficebasis-te collaboraofficebasis-tr \
-      collaboraofficebasis-uk collaboraofficebasis-vi \
-      collaboraofficebasis-writer collaboraofficebasis-zh-cn \
+    apt-get -y install locales-all coolwsd collabora-online-brand \
+      collaboraoffice-dict* \
+      collaboraofficebasis-ar \
+      collaboraofficebasis-bg \
+      collaboraofficebasis-ca \
+      collaboraofficebasis-cs \
+      collaboraofficebasis-da \
+      collaboraofficebasis-de \
+      collaboraofficebasis-el \
+      collaboraofficebasis-en-gb \
+      collaboraofficebasis-en-us \
+      collaboraofficebasis-eo \
+      collaboraofficebasis-es \
+      collaboraofficebasis-eu \
+      collaboraofficebasis-fi \
+      collaboraofficebasis-fr \
+      collaboraofficebasis-gl \
+      collaboraofficebasis-he \
+      collaboraofficebasis-hr \
+      collaboraofficebasis-hu \
+      collaboraofficebasis-id \
+      collaboraofficebasis-is \
+      collaboraofficebasis-it \
+      collaboraofficebasis-ja \
+      collaboraofficebasis-ko \
+      collaboraofficebasis-lo \
+      collaboraofficebasis-nb \
+      collaboraofficebasis-nl \
+      collaboraofficebasis-oc \
+      collaboraofficebasis-pl \
+      collaboraofficebasis-pt \
+      collaboraofficebasis-pt-br \
+      collaboraofficebasis-ru \
+      collaboraofficebasis-sk \
+      collaboraofficebasis-sl \
+      collaboraofficebasis-sq \
+      collaboraofficebasis-sv \
+      collaboraofficebasis-tr \
+      collaboraofficebasis-uk \
+      collaboraofficebasis-vi \
+      collaboraofficebasis-zh-cn \
       collaboraofficebasis-zh-tw && \
     chown cool:cool /opt/cool/systemplate/etc/hosts /opt/cool/systemplate/etc/resolv.conf && \
     chown cool:cool /etc/coolwsd && \
