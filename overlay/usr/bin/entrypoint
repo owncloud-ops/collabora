@@ -11,7 +11,7 @@ log_info "Fix name resolution"
 cp /etc/resolv.conf /etc/hosts /opt/cool/systemplate/etc/
 
 log_info "Generate WOPI proof key"
-coolwsd-generate-proof-key
+coolconfig generate-proof-key
 
 log_info "Start coolwsd daemon"
 exec /usr/bin/coolwsd --version
