@@ -51,6 +51,7 @@ steps:
       build_args_from_env:
         - COLLABORA_TOKEN
       dockerfile: Dockerfile
+      auto_tag: True
       password:
         from_secret: registry_password
       registry: registry.owncloud.com
