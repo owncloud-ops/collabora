@@ -15,7 +15,7 @@ ARG CONTAINER_LIBRARY_VERSION
 # renovate: datasource=github-releases depName=hairyhenderson/gomplate
 ENV GOMPLATE_VERSION="${GOMPLATE_VERSION:-v3.11.7}"
 # renovate: datasource=docker depName=collabora/code
-ENV COLLABORA_RAW_VERSION="${BUILD_VERSION:-23.05.9.1.1}"
+ENV COLLABORA_RAW_VERSION="${BUILD_VERSION:-23.05.9.2.1}"
 # renovate: datasource=github-releases depName=owncloud-ops/container-library
 ENV CONTAINER_LIBRARY_VERSION="${CONTAINER_LIBRARY_VERSION:-v0.1.0}"
 
