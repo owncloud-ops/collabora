@@ -34,7 +34,7 @@
     <mount_namespaces type="bool" default="false">{{ getenv "COLLABORA_EXPERIMENTAL_USE_NAMESPACES" "false" }}</mount_namespaces>
 
     <memproportion type="double" default="80.0"></memproportion>
-    <num_prespawn_children type="uint" default="1">{{ getenv "COLLABORA_NUM_RESPAWN_CHILDREN" "1" }}</num_prespawn_children>
+    <num_prespawn_children type="uint" default="1">{{ getenv "COLLABORA_NUM_RESPAWN_CHILDREN" "4" }}</num_prespawn_children>
     <per_document>
         <max_concurrency type="uint" default="4">{{ getenv "COLLABORA_PER_DOCUMENT_MAX_CONCURRENCY" "4" }}</max_concurrency>
         <batch_priority type="uint" default="5">5</batch_priority>
@@ -70,7 +70,7 @@
     <per_view>
         <out_of_focus_timeout_secs type="uint" default="120">{{ getenv "COLLABORA_PER_VIEW_OUT_OF_FOCUS_TIMEOUT" "120" }}</out_of_focus_timeout_secs>
         <idle_timeout_secs type="uint" default="900">{{ getenv "COLLABORA_PER_VIEW_IDLE_TIMEOUT" "900" }}</idle_timeout_secs>
-        <custom_os_info type="string" default="">{{ getenv "COLLABORA_PER_CUSTOM_OS_INFO "" }}</custom_os_info>
+        <custom_os_info type="string" default="">{{ getenv "COLLABORA_PER_VIEW_CUSTOM_OS_INFO "" }}</custom_os_info>
     </per_view>
 
     <ver_suffix type="string" default=""></ver_suffix>
@@ -163,7 +163,7 @@
         <cert_file_path relative="false">/etc/coolwsd/cert.pem</cert_file_path>
         <key_file_path relative="false">/etc/coolwsd/key.pem</key_file_path>
         <ca_file_path relative="false">/etc/coolwsd/ca-chain.cert.pem</ca_file_path>
-        <ssl_verification type="string" default="false">{{ getenv "COLLABORA_SSL_VERIFiCATION" "false" }}</ssl_verification>
+        <ssl_verification type="string" default="false">{{ getenv "COLLABORA_SSL_VERIFICATION" "false" }}</ssl_verification>
         <cipher_list default="ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"></cipher_list>
         <hpkp enable="false" report_only="false">
             <max_age enable="true">1000</max_age>
@@ -216,7 +216,7 @@
             {{- end }}
             <max_file_size type="uint">{{ getenv "COLLABORA_STORAGE_WOPI_MAX_FILE_SIZE" "0" }}</max_file_size>
             <locking>
-                <refresh type="int" default="900">900</refresh>
+                <refresh type="int" default="900">{{ getenv "COLLABORA_STORAGE_WOPI_LOCK_REFRESH_FREQUENCY" "900" }}</refresh>
             </locking>
 
             <alias_groups mode="first">
