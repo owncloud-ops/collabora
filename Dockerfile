@@ -33,7 +33,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     COLLABORA_VERSION=$(echo "$COLLABORA_RAW_VERSION" | cut -d '.' -f 1,2) && \
     echo "Setup Collabora 'v$COLLABORA_VERSION'" && \
     curl -SsfL -o /usr/share/keyrings/collaboraonline-release-keyring.gpg https://www.collaboraoffice.com/downloads/gpg/collaboraonline-release-keyring.gpg && \
-    echo "deb [signed-by=/usr/share/keyrings/collaboraonline-release-keyring.gpg] https://www.collaboraoffice.com/repos/CollaboraOnline/${COLLABORA_VERSION}/customer-debian11-${COLLABORA_TOKEN} /" | tee "/etc/apt/sources.list.d/collabora.list" && \
+    echo "deb [signed-by=/usr/share/keyrings/collaboraonline-release-keyring.gpg] https://www.collaboraoffice.com/repos/CollaboraOnline/${COLLABORA_VERSION}/customer-deb-${COLLABORA_TOKEN} /" | tee "/etc/apt/sources.list.d/collabora.list" && \
     apt-get update && \
     apt-get -y install locales-all coolwsd collabora-online-brand \
       collaboraoffice-dict* \
