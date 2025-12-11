@@ -35,7 +35,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
     curl -SsfL -o /usr/share/keyrings/collaboraonline-release-keyring.gpg https://www.collaboraoffice.com/downloads/gpg/collaboraonline-release-keyring.gpg && \
     echo "deb [signed-by=/usr/share/keyrings/collaboraonline-release-keyring.gpg] https://www.collaboraoffice.com/repos/CollaboraOnline/${COLLABORA_VERSION}/customer-deb-${COLLABORA_TOKEN} /" | tee "/etc/apt/sources.list.d/collabora.list" && \
     apt-get update && \
-    apt-get -y install locales-all coolwsd collabora-online-brand \
+    apt-get -y install locales-all coolwsd coolwsd-deprecated collabora-online-brand \
       collaboraoffice-dict* \
       collaboraofficebasis-ar \
       collaboraofficebasis-bg \
